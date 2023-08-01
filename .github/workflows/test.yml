@@ -1,0 +1,24 @@
+name: Build
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Find new files
+      run: |
+        git fetch origin
+        git diff --name-only HEAD^ HEAD > newfiles.txt
+
+    - name: Archive new files
+      run: |
+        tar -czvf newfiles.tar.gz -T newfiles.txt
+        echo "::set-env name=NEW_FILES::newfiles.tar.gz"
+
