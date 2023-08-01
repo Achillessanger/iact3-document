@@ -12,14 +12,19 @@ jobs:
     steps:
     - uses: actions/checkout@v2
       with:
-        fetch-depth: 2
+        fetch-depth: ${{ github.event_name == 'pull_request' && 2 || 0 }}
 
     - name: Find new files
       run: |
-        git diff --name-only -r HEAD^1 HEAD > newfiles.txt
+        if ${{ github.event_name == 'pull_request' }}; then
+          echo "changed_files=$(git diff --name-only -r HEAD^1 HEAD | xargs)" >> $GITHUB_OUTPUT
+        else
+          echo "changed_files=$(git diff --name-only ${{ github.event.before }} ${{ github.event.after }} | xargs)" >> $GITHUB_OUTPUT
+        fi
 
-    - name: Archive new files
+    - name: List changed files
       run: |
-        tar -czvf newfiles.tar.gz -T newfiles.txt
-        echo "::set-env name=NEW_FILES::newfiles.tar.gz"
+        for file in ${{ steps.changed-files.outputs.changed_files }}; do
+            echo "$file was changed"
+        done
 
