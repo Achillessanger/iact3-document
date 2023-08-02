@@ -1,4 +1,4 @@
-name: workflowname
+name: iact3-test
 
 on:
   push:
@@ -10,26 +10,22 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
       with:
         fetch-depth: ${{ github.event_name == 'pull_request' && 2 || 0 }}
 
-    - name: Find new files
-      id: changed-files
+    - name: Find changed templates
+      id: changed-templates
       run: |
         if ${{ github.event_name == 'pull_request' }}; then
-          echo ">>>>>>>>>>"
-          echo git diff --name-only -r HEAD^1 HEAD | grep '^iact3-config' | xargs
-          echo "changed_files=$(git diff --name-only -r HEAD^1 HEAD | grep '^iact3-config' | xargs)" >> $GITHUB_OUTPUT
+          echo "changed_files=$(git diff --name-only -r HEAD^1 HEAD | grep -v '^iact3-config' | xargs)" >> $GITHUB_OUTPUT
         else
-          echo "<<<<<<<<<<<"
-          echo $(git diff --name-only ${{ github.event.before }} ${{ github.event.after }} |grep '^iact3-config' | xargs)
-          echo "changed_files=$(git diff --name-only ${{ github.event.before }} ${{ github.event.after }} | grep '^iact3-config' | xargs)" >> $GITHUB_OUTPUT
+          echo "changed_files=$(git diff --name-only ${{ github.event.before }} ${{ github.event.after }} | grep -v '^iact3-config' | xargs)" >> $GITHUB_OUTPUT
         fi
 
     - name: List changed files
       run: |
-        for file in ${{ steps.changed-files.outputs.changed_files }}; do
+        for file in ${{ steps.changed-templates.outputs.changed_files }}; do
             echo "$file was changed"
             cat $file
             echo "\n"
