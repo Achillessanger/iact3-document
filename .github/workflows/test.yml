@@ -19,12 +19,12 @@ jobs:
       run: |
         if ${{ github.event_name == 'pull_request' }}; then
           echo ">>>>>>>>>>"
-          echo $(git diff --name-only -r HEAD^1 HEAD | xargs)
-          echo "changed_files=$(git diff --name-only -r HEAD^1 HEAD | xargs)" >> $GITHUB_OUTPUT
+          echo git diff --name-only -r HEAD^1 HEAD | grep '^/iact3-config' | xargs
+          echo "changed_files=$(git diff --name-only -r HEAD^1 HEAD | grep '^/iact3-config' | xargs)" >> $GITHUB_OUTPUT
         else
           echo "<<<<<<<<<<<"
-          echo $(git diff --name-only ${{ github.event.before }} ${{ github.event.after }} | xargs)
-          echo "changed_files=$(git diff --name-only ${{ github.event.before }} ${{ github.event.after }} | xargs)" >> $GITHUB_OUTPUT
+          echo $(git diff --name-only ${{ github.event.before }} ${{ github.event.after }} |grep '^/iact3-config' | xargs)
+          echo "changed_files=$(git diff --name-only ${{ github.event.before }} ${{ github.event.after }} | grep '^/iact3-config' | xargs)" >> $GITHUB_OUTPUT
         fi
 
     - name: List changed files
@@ -32,5 +32,6 @@ jobs:
         for file in ${{ steps.changed-files.outputs.changed_files }}; do
             echo "$file was changed"
             cat $file
+            echo "\n"
         done
 

@@ -1,0 +1,60 @@
+project:
+  auth: 
+    name: akProfile
+    location: ~/.aliyun/config.json
+  name: test-ipv4
+  regions:
+    - cn-hangzhou
+    # - cn-beijing
+  template_config: 
+    template_location: /Users/shiruixin/Desktop/ipv4网络模版/ipv4.yaml 
+    # template_url: http://test-yx-hangzhou.oss-cn-hangzhou.aliyuncs.com/ipv4.yaml
+  oss_config: 
+    bucket_name: test-yx-hangzhou
+    bucket_region: cn-hangzhou
+tests:
+  default:
+    parameters:
+      ZoneId: $[iact3-auto]
+      InstanceType: 'ecs.g6e.large'
+      Password: $[iact3-auto]
+      EIPBandwidth: 1
+      EcsSystemDiskCategory: 'cloud_essd'
+      # template_config: 
+      #   template_location: /Users/shiruixin/Desktop/ipv4网络模版/ipv4.yaml
+  second:
+    parameters:
+      ZoneId: $[iact3-auto]
+      InstanceType: 'ecs.g6.largee'
+      Password: $[iact3-auto]
+      EIPBandwidth: 2
+      EcsSystemDiskCategory: 'cloud_ssd'
+  # test2:
+  #   parameters:
+  #     ZoneId: $[iact3-auto]
+  #     InstanceType: 'ecs.g6.large'
+  #     Password: $[iact3-auto]
+  #     EIPBandwidth: 10
+  #     EcsSystemDiskCategory: 'cloud_ssd'
+  # test2:
+  #   parameters:
+  #     VPC: vpc-bp1i5qmqollapsd925lqx
+  #     VSwitch: vsw-bp1ntc3d097rabqj2eoz7
+  #     template_config: 
+  #       template_location: /Users/shiruixin/Desktop/ipv4网络模版/nat.yml
+  # test3:
+  #   parameters:
+  #     VpcId: vpc-bp1bqklz6zm4fo4ir55b9
+  #     SecurityGroupId: sg-bp19cuc2if655qbwbi0e
+  #     VSwitchId1: vsw-bp1l5ojzkd53oom191pf0
+  #     VSwitchId2: vsw-bp1yaup00beoyrltioyzq
+  #     VSwitchId3: vsw-bp1oe5fina97df5ytlz7q
+  #     ClusterName: yunxiu
+  #     EndpointPublicAccess: true
+  #     MasterInstanceType: ecs.g6.large
+  #     WorkerInstanceType1: ecs.g6.large
+  #     WorkerInstanceType2: ecs.g6.large
+  #     WorkerInstanceType3: ecs.g6.large
+  #     LoginPassword: $[iact3-auto]
+  #     emplate_config: 
+  #       template_location: /Users/shiruixin/Desktop/ipv4网络模版/k8s.iact3.yml
