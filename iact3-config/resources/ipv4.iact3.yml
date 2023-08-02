@@ -1,11 +1,11 @@
 project:
-  auth: 
-    name: akProfile
-    location: ~/.aliyun/config.json
+#  auth:
+#    name: akProfile
+#    location: ~/.aliyun/config.json
   name: test-ipv4
   regions:
     - cn-hangzhou
-#    - cn-beijing
+    - cn-beijing
 #  template_config:
 #    template_location: /Users/shiruixin/Desktop/ipv4网络模版/ipv4.yaml
 #    # template_url: http://test-yx-hangzhou.oss-cn-hangzhou.aliyuncs.com/ipv4.yaml
