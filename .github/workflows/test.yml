@@ -23,9 +23,7 @@ jobs:
           echo "changed_files=$(git diff --name-only ${{ github.event.before }} ${{ github.event.after }} | grep -v '^iact3-config' | xargs)" >> $GITHUB_OUTPUT
         fi
         
-        for file in ${{ $GITHUB_OUTPUT }}; do
-            echo ">>"."$file was changed"
-        done
+        echo $(git diff --name-only ${{ github.event.before }} ${{ github.event.after }} | grep -v '^iact3-config' | xargs)
         
         for file in ${{ steps.checkout.outputs.modified_files }}; do
             echo "<<"."$file was changed"
