@@ -16,7 +16,7 @@ tests:
   default:
     parameters:
       ZoneId: $[iact3-auto]
-      InstanceType: 'ecs.g6ee.large'
+      InstanceType: 'ecs.g6.large'
       Password: $[iact3-auto]
       EIPBandwidth: 1
       EcsSystemDiskCategory: 'cloud_essd'
