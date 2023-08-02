@@ -22,6 +22,10 @@ jobs:
         else
           echo "changed_files=$(git diff --name-only ${{ github.event.before }} ${{ github.event.after }} | grep -v '^iact3-config' | xargs)" >> $GITHUB_OUTPUT
         fi
+        
+        for file in ${{ steps.changed-templates.outputs.changed_files }}; do
+            echo "$file was changed"
+        done
 
     - name: Test templates
       uses: Achillessanger/iact3-action@main
