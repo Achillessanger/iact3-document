@@ -2,7 +2,7 @@ project:
 #  auth:
 #    name: akProfile
 #    location: ~/.aliyun/config.json
-  name: test-ipv4
+  name: test--ipv4
   regions:
     - cn-hangzhou
 #    - cn-beijing
