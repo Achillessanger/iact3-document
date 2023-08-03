@@ -1,0 +1,13 @@
+project:
+  name: test-nat
+  regions:
+    - cn-hangzhou
+  oss_config: 
+    bucket_name: test-yx-hangzhou
+    bucket_region: cn-hangzhou
+tests:
+  default:
+    parameters:
+      VPC: vpc-bp1i5qmqollapsd925lqx
+      VSwitch: vsw-bp1ntc3d097rabqj2eoz7
+      
