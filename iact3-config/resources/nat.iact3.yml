@@ -8,6 +8,6 @@ project:
 tests:
   default:
     parameters:
-      VPC: vpc-bp1i5qmqollapsd925lqx
+      VPC: vpc-bp1fi5qmqollapsd925lqx
       VSwitch: vsw-bp1ntc3d097rabqj2eoz7
       
