@@ -19,12 +19,12 @@ jobs:
       id: changed-templates
       run: |
         if ${{ github.event_name == 'pull_request' }}; then
-          echo "changed_files=$(git diff --name-only -r HEAD^1 HEAD | grep -v '^iact3-config' | xargs)" >> $GITHUB_OUTPUT
+          echo "changed_files=$(git diff --name-only -r HEAD^1 HEAD | grep -v '^iact3-config/' | xargs)" >> $GITHUB_OUTPUT
         else
-          echo "changed_files=$(git diff --name-only ${{ github.event.before }} ${{ github.event.after }} | grep -v '^iact3-config' | xargs)" >> $GITHUB_OUTPUT
+          echo "changed_files=$(git diff --name-only ${{ github.event.before }} ${{ github.event.after }} | grep -v '^iact3-config/' | xargs)" >> $GITHUB_OUTPUT
         fi
         
-        echo $(git diff --name-only ${{ github.event.before }} ${{ github.event.after }} | grep -v '^iact3-config' | xargs) 
+        echo $(git diff --name-only ${{ github.event.before }} ${{ github.event.after }} | grep -v '^iact3-config/' | xargs) 
 
     - name: Test templates
       uses: Achillessanger/iact3-action@main
