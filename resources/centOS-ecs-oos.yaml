@@ -13,7 +13,7 @@ Parameters:
     Type: String
     Label:
       en: Select An Existing CentOS ECS Instance ID
-      zh-cn: 请选择带有CentOSde镜像的实例ID
+      zh-cn: 请选择带有CentOS镜像的实例ID
     AssociationProperty: ALIYUN::ECS::Instance::InstanceId
     AssociationPropertyMetadata:
       Visible:

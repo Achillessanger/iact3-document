@@ -33,4 +33,11 @@ jobs:
         access_key_id: ${{ secrets.ACCESS_KEY_ID }}
         access_key_secret: ${{ secrets.ACCESS_KEY_SECRET }}
 
+    - name: Check result
+      run: |
+        echo "\$?:"$?
+        if [ $? -ne 0 ]; then
+          exit 1
+        fi
+
 
