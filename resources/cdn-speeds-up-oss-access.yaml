@@ -24,10 +24,6 @@ Parameters:
       en: The OSS domain name that needs to be accelerated (the domain name corresponding
         to the previously created OSS Bucket).
 Resources:
-  OpenCdnService:
-    Type: ALIYUN::ROS::AutoEnableService
-    Properties:
-      ServiceName: DCDN
   Domain:
     Type: ALIYUN::CDN::Domain
     Properties:
