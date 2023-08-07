@@ -32,12 +32,14 @@ jobs:
         templates: ${{ steps.changed-templates.outputs.changed_files }}
         access_key_id: ${{ secrets.ACCESS_KEY_ID }}
         access_key_secret: ${{ secrets.ACCESS_KEY_SECRET }}
+      continue-on-error: true
 
-#    - name: Check result
-#      run: |
-#        echo "\$?:"$?
-#        if [ $? -ne 0 ]; then
-#          exit 1
-#        fi
+
+    - name: Check result
+      run: |
+        echo "\$?:"$?
+        if [ $? -ne 0 ]; then
+          exit 1
+        fi
 
 
