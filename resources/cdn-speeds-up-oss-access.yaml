@@ -17,7 +17,7 @@ Parameters:
   OssDomain:
     Type: String
     Label:
-      zh-cn: 源站信息
+      zh-cn: 源站信息。
       en: Source station information
     Description:
       zh-cn: 需要加速的OSS域dd名（即之前创建的OSS Bucket对应的域名）。
