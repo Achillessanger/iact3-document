@@ -4,10 +4,9 @@ on:
 #  push:
 #    branches:
 #      - main
-  pull_request_target:
+  pull_request:
     types: [ opened, synchronize, reopened ]
-    branches:
-      - main
+
 
 jobs:
   myJob:
@@ -26,10 +25,10 @@ jobs:
           echo "github.event_name == pull_request"
           echo "changed_files=$(git diff --name-only -r HEAD^1 HEAD | grep -v '^iact3-config/' | xargs)" >> $GITHUB_OUTPUT
         else
+          echo "github.event_name != pull_request"
           echo "changed_files=$(git diff --name-only ${{ github.event.before }} ${{ github.event.after }} | grep -v '^iact3-config/' | xargs)" >> $GITHUB_OUTPUT
         fi
         
-#        echo ${github.event_name}
         echo $(git diff --name-only -r HEAD^1 HEAD | grep -v '^iact3-config/' | xargs)
         echo $(git diff --name-only ${{ github.event.before }} ${{ github.event.after }} | grep -v '^iact3-config/' | xargs) 
 
