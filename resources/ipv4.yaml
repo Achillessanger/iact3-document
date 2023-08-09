@@ -23,7 +23,7 @@ Parameters:
   Password:
     Type: String
     Label: 
-      zh-cn: ECS 实例密码
+      zh-cn: ECS 实例密码。
       en: ECS Instance Password
     Description: 
       en: Server login password, Length 8-30, must contain three(Capital letters,
