@@ -6,7 +6,7 @@ on:
 
 
 jobs:
-  myJob:
+  iact3Test:
     runs-on: ubuntu-latest
 
     steps:
