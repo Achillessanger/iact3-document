@@ -10,7 +10,7 @@ Parameters:
       zh-cn: 加速域名
       en: Accelerated domain name
     Description:
-      zh-cn: 加速域名是指接入CDN，用于加速源站的域名。该示例为oss.example.com。
+      zh-cn: 加速域名是指g接入CDN，用于加速源站的域名。该示例为oss.example.com。
       en: Accelerated domain name refers to the domain name of the access CDN used
         to accelerate the source site. The example is oss.example.com.
     Default: oss.example.com
