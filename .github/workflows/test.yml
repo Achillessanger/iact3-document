@@ -1,9 +1,6 @@
 name: iact3-test
 
 on:
-#  push:
-#    branches:
-#      - main
   pull_request_target:
     types: [ opened, synchronize, reopened ]
 
@@ -23,28 +20,13 @@ jobs:
       run: |
         if ${{ github.event_name == 'pull_request_target' }}; then
           echo "github.event_name == pull_request_target"
-          echo "changed_files=$(git diff --name-only -r HEAD^1 HEAD | grep -v '^iact3-config/' | xargs)" >> $GITHUB_OUTPUT
+          git fetch origin +refs/pull/${{ github.event.pull_request.number }}/merge
+          git checkout -qf FETCH_HEAD
+          echo "changed_files=$(git --no-pager diff --name-only FETCH_HEAD $(git merge-base FETCH_HEAD main) | grep -v '^iact3-config/' | xargs)" >> $GITHUB_OUTPUT
         else
           echo "github.event_name != pull_request_target"
           echo "changed_files=$(git diff --name-only ${{ github.event.before }} ${{ github.event.after }} | grep -v '^iact3-config/' | xargs)" >> $GITHUB_OUTPUT
         fi
-        
-        echo "----"
-        echo $(git diff --name-only -r HEAD^1 HEAD)
-        echo "++++"
-        echo "PR files changed: ${{ github.event.pull_request.changed_files }}"
-        tree
-        echo "////"
-        git fetch origin +refs/pull/${{ github.event.pull_request.number }}/merge
-        git checkout -qf FETCH_HEAD
-        tree
-        git branch
-        echo "------"
-        git --no-pager diff --name-only FETCH_HEAD $(git merge-base FETCH_HEAD main)
-        
-        
-        
-        
 
     - name: Test templates
       uses: Achillessanger/iact3-action@main
