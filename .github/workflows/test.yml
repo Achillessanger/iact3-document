@@ -13,8 +13,9 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v3
-      id: checkout
+    - name: Check out
+      uses: actions/checkout@v3
+
 
     - name: Find changed templates
       id: changed-templates
