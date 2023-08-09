@@ -29,8 +29,16 @@ jobs:
           echo "changed_files=$(git diff --name-only ${{ github.event.before }} ${{ github.event.after }} | grep -v '^iact3-config/' | xargs)" >> $GITHUB_OUTPUT
         fi
         
-        echo $(git diff --name-only -r HEAD^1 HEAD | grep -v '^iact3-config/' | xargs)
-        echo $(git diff --name-only ${{ github.event.before }} ${{ github.event.after }} | grep -v '^iact3-config/' | xargs) 
+        echo "----"
+        echo $(git diff --name-only -r HEAD^1 HEAD)
+        echo "++++"
+        echo $(git diff --name-only ${{ github.event.before }} ${{ github.event.after }}) 
+        echo "????
+        git fetch origin ${{github.base_ref}}:$GITHUB_BASE_REF
+        git fetch origin ${{github.head_ref}}:$GITHUB_HEAD_REF
+        files=$(git diff --name-only $GITHUB_BASE_REF $GITHUB_HEAD_REF)
+        echo "Changed files:"
+        echo "$files" | grep --color=never -E ".*"
 
     - name: Test templates
       uses: Achillessanger/iact3-action@main
