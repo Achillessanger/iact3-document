@@ -36,6 +36,7 @@ jobs:
         echo "////"
         git fetch --no-tags --prune --depth=1 origin +refs/pull/${{ github.event.pull_request.number }}/merge
         git checkout -qf FETCH_HEAD
+        tree
         git diff --name-only -m HEAD^1 HEAD
         
         
