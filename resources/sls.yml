@@ -4,6 +4,9 @@ Parameters:
   TTL:
     Type: Number
     Default: 10
+  ShardCount:
+    Type: Number
+    Default: 1
 Resources:
   MySlsProject:
     Type: Aliyun::Serverless::Log
