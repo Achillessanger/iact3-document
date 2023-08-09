@@ -39,16 +39,13 @@ jobs:
 
 
     - name: Reject PR
-      uses: peter-evans/close-pull@v3
       if: steps.test-templates.outputs.status == 'fail'
-      with:
-        token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
-        pull-request-number: ${{ github.event.inputs.pull_request_number }}
-
-    - name: Exit
-      if: steps.test-templates.outputs.status == 'fail'
+      env:
+        GITHUB_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
       run: |
+        gh pr close ${{ github.event.pull_request.number }} -d
         exit 1
+  
 
 
 
