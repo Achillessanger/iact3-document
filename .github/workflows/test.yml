@@ -32,12 +32,13 @@ jobs:
         echo "----"
         echo $(git diff --name-only -r HEAD^1 HEAD)
         echo "++++"
-        
+        echo "PR files changed: ${{ github.event.pull_request.changed_files }}"
+        echo "////"
         git fetch --no-tags --prune --depth=1 origin +refs/pull/${{ github.event.pull_request.number }}/merge
         git checkout -qf FETCH_HEAD
-        git diff --name-only HEAD^1 HEAD
-        echo "////"
-        echo "PR files changed: ${{ github.event.pull_request.changed_files }}"
+        git diff --name-only -m HEAD^1 HEAD
+        
+        
         
 
     - name: Test templates
