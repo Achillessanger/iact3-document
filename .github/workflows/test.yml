@@ -39,7 +39,7 @@ jobs:
         git checkout -qf FETCH_HEAD
         tree
         echo "------"
-        echo $(git diff --name-only -m HEAD^1 HEAD)
+        echo $(git log --name-only --pretty=oneline --no-commit-id HEAD^..HEAD)
         echo "------"
         
         
