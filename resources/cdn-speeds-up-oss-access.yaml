@@ -1,6 +1,6 @@
 ROSTemplateFormatVersion: '2015-09-01'
 Description:
-  zh-cn: 使用CDN添加域名并解析b域名，实现加速OSS的访问。
+  zh-cn: 使用CDN添加域名并解析bgggg域名，实现加速OSS的访问。
   en: Use CDN to add domain names and resolve domain names to accelerate access to
     OSS.
 Parameters:
