@@ -38,12 +38,12 @@ jobs:
       id: test-templates
 
 
-    - name: Reject PR
+    - name: Iact3 result check
       if: steps.test-templates.outputs.status == 'fail'
       env:
         GITHUB_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
       run: |
-        gh pr close ${{ github.event.pull_request.number }} -d
+        gh pr close ${{ github.event.pull_request.number }} 
         exit 1
   
 
