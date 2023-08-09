@@ -32,12 +32,13 @@ jobs:
         echo "----"
         echo $(git diff --name-only -r HEAD^1 HEAD)
         echo "++++"
-
-        git fetch origin ${{github.base_ref}}:$GITHUB_BASE_REF
-        git fetch origin ${{github.head_ref}}:$GITHUB_HEAD_REF
-        files=$(git diff --name-only $GITHUB_BASE_REF $GITHUB_HEAD_REF)
-        echo "Changed files:"
-        echo "$files" | grep --color=never -E ".*"
+        
+        git fetch --no-tags --prune --depth=1 origin +refs/pull/${{ github.event.pull_request.number }}/merge
+        git checkout -qf FETCH_HEAD
+        git diff --name-only HEAD^1 HEAD
+        echo "////"
+        echo "PR files changed: ${{ github.event.pull_request.changed_files }}"
+        
 
     - name: Test templates
       uses: Achillessanger/iact3-action@main
