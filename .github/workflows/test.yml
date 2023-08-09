@@ -33,6 +33,7 @@ jobs:
         echo $(git diff --name-only -r HEAD^1 HEAD)
         echo "++++"
         echo "PR files changed: ${{ github.event.pull_request.changed_files }}"
+        tree
         echo "////"
         git fetch --no-tags --prune --depth=1 origin +refs/pull/${{ github.event.pull_request.number }}/merge
         echo $(git diff --name-only -r HEAD^1 HEAD)
