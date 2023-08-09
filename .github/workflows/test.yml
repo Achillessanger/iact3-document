@@ -16,16 +16,16 @@ jobs:
     - uses: actions/checkout@v3
       id: checkout
       with:
-        fetch-depth: ${{ github.event_name == 'pull_request' && 2 || 0 }}
+        fetch-depth: ${{ github.event_name == 'pull_request_target' && 2 || 0 }}
 
     - name: Find changed templates
       id: changed-templates
       run: |
-        if ${{ github.event_name == 'pull_request' }}; then
-          echo "github.event_name == pull_request"
+        if ${{ github.event_name == 'pull_request_target' }}; then
+          echo "github.event_name == pull_request_target"
           echo "changed_files=$(git diff --name-only -r HEAD^1 HEAD | grep -v '^iact3-config/' | xargs)" >> $GITHUB_OUTPUT
         else
-          echo "github.event_name != pull_request"
+          echo "github.event_name != pull_request_target"
           echo "changed_files=$(git diff --name-only ${{ github.event.before }} ${{ github.event.after }} | grep -v '^iact3-config/' | xargs)" >> $GITHUB_OUTPUT
         fi
         
