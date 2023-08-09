@@ -32,8 +32,8 @@ jobs:
         echo "----"
         echo $(git diff --name-only -r HEAD^1 HEAD)
         echo "++++"
-        echo $(git diff --name-only ${{ github.event.before }} ${{ github.event.after }}) 
-        echo "????
+#        echo $(git diff --name-only ${{ github.event.before }} ${{ github.event.after }})
+#        echo "????
         git fetch origin ${{github.base_ref}}:$GITHUB_BASE_REF
         git fetch origin ${{github.head_ref}}:$GITHUB_HEAD_REF
         files=$(git diff --name-only $GITHUB_BASE_REF $GITHUB_HEAD_REF)
