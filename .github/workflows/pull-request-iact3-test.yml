@@ -19,13 +19,11 @@ jobs:
       id: changed-templates
       run: |
         if ${{ github.event_name == 'pull_request_target' }}; then
-          echo "github.event_name == pull_request_target"
           git fetch origin +refs/pull/${{ github.event.pull_request.number }}/merge
           git checkout -qf FETCH_HEAD
-          echo "changed_files=$(git --no-pager diff --name-only FETCH_HEAD $(git merge-base FETCH_HEAD main) | grep -v '^iact3-config/' | xargs)" >> $GITHUB_OUTPUT
+          echo "changed_files=$(git --no-pager diff --name-only FETCH_HEAD $(git merge-base FETCH_HEAD main)  | xargs)" >> $GITHUB_OUTPUT
         else
-          echo "github.event_name != pull_request_target"
-          echo "changed_files=$(git diff --name-only ${{ github.event.before }} ${{ github.event.after }} | grep -v '^iact3-config/' | xargs)" >> $GITHUB_OUTPUT
+          echo "changed_files=$(git diff --name-only ${{ github.event.before }} ${{ github.event.after }}  | xargs)" >> $GITHUB_OUTPUT
         fi
 
     - name: Test templates
