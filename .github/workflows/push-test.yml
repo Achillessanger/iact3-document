@@ -41,7 +41,7 @@ jobs:
     - name: DingTalk Robot
       if: always()
       run: |
-        curl -H 'Content-Type: application/json' -d '{"msgtype": "text","text": {"content": "测试结果：'"${{ job.status }}"'\n详情请查看：'"${{ github.event.push.html_url }}"'"}}' ${{ secrets.DINGDING_WEBHOOK }}
+        curl -H 'Content-Type: application/json' -d '{"msgtype": "text","text": {"content": "测试结果：}' ${{ secrets.DINGDING_WEBHOOK }}
   
 
 
