@@ -38,12 +38,10 @@ jobs:
       id: test-templates
 
 
-    - name: Iact3 result check
-      if: steps.test-templates.outputs.status == 'fail'
-      env:
-        GITHUB_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+    - name: DingTalk Robot
+      if: always()
       run: |
-        exit 1
+        curl -H 'Content-Type: application/json' -d '{"msgtype": "text","text": {"content": "测试结果：'"${{ job.status }}"'\n详情请查看：'"${{ github.event.push.html_url }}"'"}}' ${{ secrets.DINGDING_WEBHOOK }}
   
 
 
