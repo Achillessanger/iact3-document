@@ -2,7 +2,8 @@ name: iact3-test
 
 on:
   pull_request:
-    types: [ opened, synchronize, reopened ]
+    branches:
+      - main
 
 
 jobs:
