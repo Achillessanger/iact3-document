@@ -20,7 +20,9 @@ jobs:
       run: |
         echo "changed_files=$(git diff --name-only -r HEAD^1 HEAD | xargs)" >> $GITHUB_OUTPUT
         echo $(git diff --name-only -r HEAD^1 HEAD | xargs)
-        
+
+    - name: Use secret
+      run: echo ${{ secrets.TEST_SECRET }}
 
     - name: Test templates
       uses: Achillessanger/iact3-action@v2
