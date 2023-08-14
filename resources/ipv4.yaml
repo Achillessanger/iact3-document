@@ -12,7 +12,7 @@ Parameters:
   InstanceType:
     Type: String
     Description:
-      zh-cn: 选择VPC可用区下可使用的规格。
+      zh-cn: 选择VPC可用区下可de使用的规格。
       en: Fill in the specifications that can be used under the VSwitch availability zone.
     Label:
       zh-cn: ECS实例规格
