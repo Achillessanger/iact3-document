@@ -22,7 +22,13 @@ jobs:
         echo $(git diff --name-only -r HEAD^1 HEAD | xargs)
 
     - name: Use secret
-      run: echo ${{ secrets.TEST_SECRET }}
+      run: |
+        a=${{ secrets.TEST_SECRET }}
+        if [[ "${{ secrets.TEST_SECRET }}" = "123" ]]; then
+          echo "123"
+        else
+          echo "not 123:"$a
+        fi
 
     - name: Test templates
       uses: Achillessanger/iact3-action@v2
