@@ -1,7 +1,7 @@
 name: iact3-test
 
 on:
-  pull_request_target:
+  pull_request:
     types: [ opened, synchronize, reopened ]
 
 
@@ -18,7 +18,10 @@ jobs:
     - name: Find changed templates
       id: changed-templates
       run: |
-        if ${{ github.event_name == 'pull_request_target' }}; then
+        apt-get install -y tree
+        tree
+        echo $(git diff --name-only ${{ github.event.pull_request.head.sha }} $(echo ${{ github.event.pull_request.base.sha }}))
+        if ${{ github.event_name == 'pull_request' }}; then
           git fetch origin +refs/pull/${{ github.event.pull_request.number }}/merge
           git checkout -qf FETCH_HEAD
           echo "changed_files=$(git --no-pager diff --name-only FETCH_HEAD $(git merge-base FETCH_HEAD main)  | xargs)" >> $GITHUB_OUTPUT
@@ -38,9 +41,9 @@ jobs:
       if: always()
       run: |
         if [[ "${{ steps.test-templates.outputs.status }}" = "success" ]]; then
-          curl -H 'Content-Type: application/json;charset=utf-8' -d '{"msgtype": "text","text": {"content": " ${{ github.event.pull_request.user.login }} PR#${{ github.event.pull_request.number }}:${{ github.event.pull_request.title }} iact3-test pass. ${{ github.event.pull_request.html_url }} "}}' ${{ secrets.DINGDING_WEBHOOK }}
+          curl -H 'Content-Type: application/json;charset=utf-8' -d '{"msgtype": "text","text": {"content": "Iact3-test CI pass. ${{ github.event.pull_request.user.login }} PR#${{ github.event.pull_request.number }}:${{ github.event.pull_request.title }} ${{ github.event.pull_request.html_url }} "}}' ${{ secrets.DINGDING_WEBHOOK }}
         else
-          curl -H 'Content-Type: application/json;charset=utf-8' -d '{"msgtype": "text","text": {"content": " ${{ github.event.pull_request.user.login }} PR#${{ github.event.pull_request.number }}:${{ github.event.pull_request.title }} iact3-test failed. ${{ github.event.pull_request.html_url }} "}}' ${{ secrets.DINGDING_WEBHOOK }}
+          curl -H 'Content-Type: application/json;charset=utf-8' -d '{"msgtype": "text","text": {"content": "Iact3-test CI failed. ${{ github.event.pull_request.user.login }} PR#${{ github.event.pull_request.number }}:${{ github.event.pull_request.title }} ${{ github.event.pull_request.html_url }} "}}' ${{ secrets.DINGDING_WEBHOOK }}
         fi
   
 
