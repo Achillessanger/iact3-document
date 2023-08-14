@@ -5,7 +5,7 @@ Parameters:
     AssociationProperty: ALIYUN::ECS::VPC::VPCId
     Type: String
     Label:
-      zh-cn: 现有VPC的实例ID
+      zh-cn: 现有VPC实例ID
       en: Existing VPC dInstance ID
   VSwitch:
     AssociationProperty: ALIYUN::ECS::VSwitch::VSwitchId
