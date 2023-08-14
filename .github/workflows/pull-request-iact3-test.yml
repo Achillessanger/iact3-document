@@ -38,9 +38,9 @@ jobs:
       if: always()
       run: |
         if [[ "${{ steps.test-templates.outputs.status }}" = "success" ]]; then
-          curl -H 'Content-Type: application/json;charset=utf-8' -d '{"msgtype": "text","text": {"content": " ${{ github.event.pull_request.user.login }} PR#${{ github.event.pull_request.number }} iact3-test pass: ${{ github.event.pull_request.html_url }} "}}' ${{ secrets.DINGDING_WEBHOOK }}
+          curl -H 'Content-Type: application/json;charset=utf-8' -d '{"msgtype": "text","text": {"content": " ${{ github.event.pull_request.user.login }} PR#${{ github.event.pull_request.number }}:${{ github.event.pull_request.title }} iact3-test pass. ${{ github.event.pull_request.html_url }} "}}' ${{ secrets.DINGDING_WEBHOOK }}
         else
-          curl -H 'Content-Type: application/json;charset=utf-8' -d '{"msgtype": "text","text": {"content": " ${{ github.event.pull_request.user.login }} PR#${{ github.event.pull_request.number }} iact3-test failed: ${{ github.event.pull_request.html_url }} "}}' ${{ secrets.DINGDING_WEBHOOK }}
+          curl -H 'Content-Type: application/json;charset=utf-8' -d '{"msgtype": "text","text": {"content": " ${{ github.event.pull_request.user.login }} PR#${{ github.event.pull_request.number }}:${{ github.event.pull_request.title }} iact3-test failed. ${{ github.event.pull_request.html_url }} "}}' ${{ secrets.DINGDING_WEBHOOK }}
         fi
   
 
