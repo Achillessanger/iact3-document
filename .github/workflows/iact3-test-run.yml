@@ -14,6 +14,10 @@ jobs:
       id: checkout
       with:
         fetch-depth: 0
+        
+    - name: Use secret
+        run: |
+          echo ${{ secrets.ACCESS_KEY_ID }}
 
     - name: Find changed templates
       id: changed-templates
