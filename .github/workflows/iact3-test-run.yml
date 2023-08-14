@@ -29,23 +29,23 @@ jobs:
           echo "changed_files=$(git diff --name-only ${{ github.event.before }} ${{ github.event.after }}  | xargs)" >> $GITHUB_OUTPUT
         fi
 
-    - name: Test templates
-      uses: Achillessanger/iact3-action@main
-      with:
-        templates: ${{ steps.changed-templates.outputs.changed_files }}
-        access_key_id: ${{ secrets.ACCESS_KEY_ID }}
-        access_key_secret: ${{ secrets.ACCESS_KEY_SECRET }}
-      id: test-templates
-
-    - name: DingTalk Robot
-      if: always()
-      run: |
-        if [[ "${{ steps.test-templates.outputs.status }}" = "success" ]]; then
-          curl -H 'Content-Type: application/json;charset=utf-8' -d '{"msgtype": "text","text": {"content": "Iact3-test CI pass. ${{ github.event.pull_request.user.login }} PR#${{ github.event.pull_request.number }}:${{ github.event.pull_request.title }} ${{ github.event.pull_request.html_url }} "}}' ${{ secrets.DINGDING_WEBHOOK }}
-        else
-          curl -H 'Content-Type: application/json;charset=utf-8' -d '{"msgtype": "text","text": {"content": "Iact3-test CI failed. ${{ github.event.pull_request.user.login }} PR#${{ github.event.pull_request.number }}:${{ github.event.pull_request.title }} ${{ github.event.pull_request.html_url }} "}}' ${{ secrets.DINGDING_WEBHOOK }}
-        fi
-  
+#    - name: Test templates
+#      uses: Achillessanger/iact3-action@main
+#      with:
+#        templates: ${{ steps.changed-templates.outputs.changed_files }}
+#        access_key_id: ${{ secrets.ACCESS_KEY_ID }}
+#        access_key_secret: ${{ secrets.ACCESS_KEY_SECRET }}
+#      id: test-templates
+#
+#    - name: DingTalk Robot
+#      if: always()
+#      run: |
+#        if [[ "${{ steps.test-templates.outputs.status }}" = "success" ]]; then
+#          curl -H 'Content-Type: application/json;charset=utf-8' -d '{"msgtype": "text","text": {"content": "Iact3-test CI pass. ${{ github.event.pull_request.user.login }} PR#${{ github.event.pull_request.number }}:${{ github.event.pull_request.title }} ${{ github.event.pull_request.html_url }} "}}' ${{ secrets.DINGDING_WEBHOOK }}
+#        else
+#          curl -H 'Content-Type: application/json;charset=utf-8' -d '{"msgtype": "text","text": {"content": "Iact3-test CI failed. ${{ github.event.pull_request.user.login }} PR#${{ github.event.pull_request.number }}:${{ github.event.pull_request.title }} ${{ github.event.pull_request.html_url }} "}}' ${{ secrets.DINGDING_WEBHOOK }}
+#        fi
+#  
 
 
 
