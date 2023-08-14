@@ -407,7 +407,7 @@ Outputs:
   CubeAddress:
     Description:
       en: Cube game access address.
-      zh-cn: 魔方游戏访问地址。
+      zh-cn: 魔方游戏h访问地址。
     Value:
       Fn::Sub: http://${KubeAddress}
   AckClusterId:
