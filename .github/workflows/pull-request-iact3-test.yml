@@ -34,7 +34,14 @@ jobs:
         access_key_secret: ${{ secrets.ACCESS_KEY_SECRET }}
       id: test-templates
 
-
+    - name: DingTalk Robot
+      if: always()
+      run: |
+        if [[ ${{ steps.test-templates.outputs.status }} = "Success" ]]; then
+          curl -H 'Content-Type: application/json;charset=utf-8' -d '{"msgtype": "text","text": {"content": "PR ${{ github.event.pull_request.number }} iact3-test pass: ${{ github.event.pull_request.html_url }} "}}' ${{ secrets.DINGDING_WEBHOOK }}
+        else
+          curl -H 'Content-Type: application/json;charset=utf-8' -d '{"msgtype": "text","text": {"content": "PR ${{ github.event.pull_request.number }} iact3-test failed: ${{ github.event.pull_request.html_url }} "}}' ${{ secrets.DINGDING_WEBHOOK }}
+      
   
 
 
