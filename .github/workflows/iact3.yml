@@ -18,20 +18,14 @@ jobs:
     - name: Find changed templates
       id: changed-templates
       run: |
-        if ${{ github.repository == 'Achillessanger/iact3-document' }}; then
-          git fetch origin +refs/pull/${{ github.event.pull_request.number }}/merge
-          git checkout -qf FETCH_HEAD
-          echo "changed_files=$(git --no-pager diff --name-only FETCH_HEAD $(git merge-base FETCH_HEAD main)  | xargs)" >> $GITHUB_OUTPUT
-          echo $(git --no-pager diff --name-only FETCH_HEAD $(git merge-base FETCH_HEAD main)  | xargs)
-        else
-          echo "changed_files=$(git diff --name-only -r HEAD^1 HEAD | xargs)" >> $GITHUB_OUTPUT
-          echo $(git diff --name-only -r HEAD^1 HEAD | xargs)
-        fi
-        
+        git fetch origin +refs/pull/${{ github.event.pull_request.number }}/merge
+        git checkout -qf FETCH_HEAD
+        echo "changed_files=$(git --no-pager diff --name-only FETCH_HEAD $(git merge-base FETCH_HEAD main)  | xargs)" >> $GITHUB_OUTPUT
+        echo $(git --no-pager diff --name-only FETCH_HEAD $(git merge-base FETCH_HEAD main)  | xargs)
 
     - name: Test templates
       uses: Achillessanger/iact3-action@v2
-      if: github.repository == 'Achillessanger/iact3-document'
+      if: github.event.pull_request.head.repo.fork == 'true'
       with:
         templates: ${{ steps.changed-templates.outputs.changed_files }}
         access_key_id: ${{ secrets.ACCESS_KEY_ID }}
@@ -40,7 +34,7 @@ jobs:
 
     - name: Validate templates
       uses: Achillessanger/iact3-action@main
-      if: github.repository != 'Achillessanger/iact3-document'
+      if: github.event.pull_request.head.repo.fork != 'true'
       with:
         templates: ${{ steps.changed-templates.outputs.changed_files }}
         access_key_id: ${{ secrets.ACCESS_KEY_ID }}
@@ -50,7 +44,7 @@ jobs:
     - name: DingTalk Robot
       if: always()
       run: |
-        if ${{ github.repository == 'Achillessanger/iact3-document' }}; then
+        if [[ "${{ github.event.pull_request.head.repo.fork }}" == "true" ]]; then
           if [[ "${{ steps.test-templates.outputs.status }}" = "success" ]]; then
             curl -H 'Content-Type: application/json;charset=utf-8' -d '{"msgtype": "text","text": {"content": "Iact3-validate CI pass. ${{ github.event.pull_request.user.login }} PR#${{ github.event.pull_request.number }}:${{ github.event.pull_request.title }} ${{ github.event.pull_request.html_url }} "}}' ${{ secrets.DINGDING_WEBHOOK }}
           else
