@@ -7,7 +7,7 @@ Parameters:
     Type: Boolean
     Label:
       en: If use new ECS instance.
-      zh-cn: 是否新建=ECS实例
+      zh-cn: 是否新建ECS实例
     Default: true
   ExistedEcsInstanceId:
     Type: String
