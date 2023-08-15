@@ -31,7 +31,7 @@ jobs:
         access_key_id: ${{ secrets.ACCESS_KEY_ID }}
         access_key_secret: ${{ secrets.ACCESS_KEY_SECRET }}
       id: test-templates
-      if: !github.event.pull_request.head.repo.fork
+      if: ${{ !github.event.pull_request.head.repo.fork }}
 
     - name: Validate templates
       uses: Achillessanger/iact3-action@main
@@ -40,7 +40,7 @@ jobs:
         access_key_id: ${{ secrets.ACCESS_KEY_ID }}
         access_key_secret: ${{ secrets.ACCESS_KEY_SECRET }}
       id: validate-templates
-      if: github.event.pull_request.head.repo.fork
+      if: ${{ github.event.pull_request.head.repo.fork }}
 
     - name: DingTalk Robot
       if: always()
