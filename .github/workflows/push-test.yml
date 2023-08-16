@@ -10,12 +10,6 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-#    - name:  contributors
-#      env:
-#        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-#      run: |
-#        curl -s -H "Authorization: token $GH_TOKEN" "https://api.github.com/repos/${{ github.repository }}/contributors" > contributors.json
-#        cat contributors.json
         
 
     - uses: actions/checkout@v3
@@ -27,8 +21,6 @@ jobs:
       id: changed-templates
       run: |
         echo "::"${{ contains(github.repository.collaborators, github.actor) }}
-#        ehco ">>>>"${{ github.actor }}
-#        echo "${{ toJson(github) }}"
         
         if ${{ github.event_name == 'pull_request_target' }}; then
           echo "github.event_name == pull_request_target"
