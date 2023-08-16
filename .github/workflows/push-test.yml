@@ -14,7 +14,9 @@ jobs:
       env:
         GH_TOKEN: ${{ secrets.PERSONAL_TOKEN }}
       run: |
+        set -x
         curl -s -H "Authorization: token $GH_TOKEN" "https://api.github.com/repos/${{ github.repository }}/contributors" > contributors.json
+        set +x
         contributor=$(jq '.[].login' contributors.json | grep -c "${{ github.actor }}")
         if [ $contributor -eq 1 ]; then
           echo "User is a contributor"
