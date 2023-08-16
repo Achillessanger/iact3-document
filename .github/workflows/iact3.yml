@@ -18,7 +18,7 @@ jobs:
     - name: Find changed templates
       id: changed-templates
       run: |
-        echo "::"${{ github.event.pull_request.head.repo.fork }}
+        echo "::"${{ github.event.pull_request.author_association }}
         git fetch origin +refs/pull/${{ github.event.pull_request.number }}/merge
         git checkout -qf FETCH_HEAD
         echo "changed_files=$(git --no-pager diff --name-only FETCH_HEAD $(git merge-base FETCH_HEAD main)  | xargs)" >> $GITHUB_OUTPUT
@@ -31,7 +31,7 @@ jobs:
         access_key_id: ${{ secrets.ACCESS_KEY_ID }}
         access_key_secret: ${{ secrets.ACCESS_KEY_SECRET }}
       id: test-templates
-      if: ${{ !github.event.pull_request.head.repo.fork }}
+      if: "${{ github.event.pull_request.author_association }}" == "CONTRIBUTOR"
 
     - name: Validate templates
       uses: Achillessanger/iact3-action@main
@@ -40,12 +40,12 @@ jobs:
         access_key_id: ${{ secrets.ACCESS_KEY_ID }}
         access_key_secret: ${{ secrets.ACCESS_KEY_SECRET }}
       id: validate-templates
-      if: ${{ github.event.pull_request.head.repo.fork }}
+      if: "${{ github.event.pull_request.author_association }}" != "CONTRIBUTOR"
 
     - name: DingTalk Robot
       if: always()
       run: |
-        if [[ "${{ github.event.pull_request.head.repo.fork }}" == "true" ]]; then
+        if [[ "${{ github.event.pull_request.author_association }}" != "CONTRIBUTOR" ]]; then
           if [[ "${{ steps.validate-templates.outputs.status }}" = "success" ]]; then
             curl -H 'Content-Type: application/json;charset=utf-8' -d '{"msgtype": "text","text": {"content": "Iact3-validate CI pass. ${{ github.event.pull_request.user.login }} PR#${{ github.event.pull_request.number }}:${{ github.event.pull_request.title }} ${{ github.event.pull_request.html_url }} "}}' ${{ secrets.DINGDING_WEBHOOK }}
           else
