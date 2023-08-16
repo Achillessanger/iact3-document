@@ -10,12 +10,15 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name:  contributors
-      env:
-        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    - name: Get contributors
       run: |
-        curl -s -H "Authorization: token $GH_TOKEN" "https://api.github.com/repos/${{ github.repository }}/contributors" > contributors.json
-        cat contributors.json
+        repo_full_name=$(basename $GITHUB_REPOSITORY)
+        repo_owner=$(dirname $GITHUB_REPOSITORY)
+        token=${{ secrets.GITHUB_TOKEN }}
+        
+        contributors=$(curl -sSL -H "Authorization: token $token" "https://api.github.com/repos/$repo_owner/$repo_full_name/stats/contributors" | jq -r '.[].author.login')
+        
+        echo "$contributors"
         
 
     - uses: actions/checkout@v3
