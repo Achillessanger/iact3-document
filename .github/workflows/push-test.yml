@@ -14,17 +14,9 @@ jobs:
       env:
         GH_TOKEN: ${{ secrets.PERSONAL_TOKEN }}
       run: |
-        set -x
         curl -s -H "Authorization: token $GH_TOKEN" "https://api.github.com/repos/${{ github.repository }}/contributors" > contributors.json
-        set +x
-        contributor=$(jq '.[].login' contributors.json | grep -c "${{ github.actor }}")
-        if [ $contributor -eq 1 ]; then
-          echo "User is a contributor"
-            # 使用某一个 action
-        else
-          echo "User is not a contributor"
-            # 使用另一个 action
-        fi
+        cat contributors.json
+        
 
     - uses: actions/checkout@v3
       id: checkout
