@@ -21,6 +21,7 @@ jobs:
       id: changed-templates
       run: |
         echo "::"${{ contains(github.repository.collaborators, github.actor) }}
+        echo "${{ toJson(github) }}"
         
         if ${{ github.event_name == 'pull_request_target' }}; then
           echo "github.event_name == pull_request_target"
