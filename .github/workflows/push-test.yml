@@ -10,7 +10,23 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+    - name:  contributors
+      env:
+        GH_TOKEN: ${{ secrets.PERSONAL_TOKEN }}
+      run: |
         
+        collaborators=$(curl -sSL -H "Authorization: token $token" "https://api.github.com/repos/${{ github.repository }}/collaborators" | jq -r '.[].login')
+        echo "Repository collaborators: $collaborators"
+        r=$(curl -sSL -H "Authorization: token $token" "https://api.github.com/repos/${{ github.repository }}/collaborators" | jq -r '.[].login' | grep -c "${{ github.actor }}")
+        echo ":::"$r
+    
+        if [ $r -eq 1 ]; then
+          echo "User is a contributor"
+            # 使用某一个 action
+        else
+          echo "User is not a contributor"
+            # 使用另一个 action
+        fi
 
     - uses: actions/checkout@v3
       id: checkout
@@ -21,7 +37,7 @@ jobs:
       id: changed-templates
       run: |
         echo "::"${{ contains(github.repository.collaborators, github.actor) }}
-        echo "${{ toJson(github) }}"
+   
         
         if ${{ github.event_name == 'pull_request_target' }}; then
           echo "github.event_name == pull_request_target"
