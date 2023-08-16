@@ -10,6 +10,20 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+    - name:  contributors
+      env:
+        GH_TOKEN: ${{ secrets.PERSONAL_TOKEN }}
+      run: |
+        curl -s -H "Authorization: token $GH_TOKEN" "https://api.github.com/repos/${{ github.repository }}/contributors" > contributors.json
+        contributor=$(jq '.[].login' contributors.json | grep -c "${{ github.actor }}")
+        if [ $contributor -eq 1 ]; then
+          echo "User is a contributor"
+            # 使用某一个 action
+        else
+          echo "User is not a contributor"
+            # 使用另一个 action
+        fi
+
     - uses: actions/checkout@v3
       id: checkout
       with:
@@ -19,7 +33,6 @@ jobs:
       id: changed-templates
       run: |
         echo "::"${{ contains(github.repository.collaborators, github.actor) }}
-        ehco ">>>"${{ github.repository.collaborators }}
         ehco ">>>>"${{ github.actor }}
         echo "${{ toJson(github) }}"
         
