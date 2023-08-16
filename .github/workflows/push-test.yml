@@ -19,6 +19,7 @@ jobs:
       id: changed-templates
       run: |
         echo "::"${{ github.event.push.author_association }}
+        echo "${{ toJson(github) }}"
         
         if ${{ github.event_name == 'pull_request_target' }}; then
           echo "github.event_name == pull_request_target"
