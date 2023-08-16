@@ -18,7 +18,7 @@ jobs:
     - name: Find changed templates
       id: changed-templates
       run: |
-        echo "::"${{ github.event.pull_request.author_association }}
+        echo "::"${{ github.event.push.author_association }}
         
         if ${{ github.event_name == 'pull_request_target' }}; then
           echo "github.event_name == pull_request_target"
