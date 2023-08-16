@@ -18,6 +18,8 @@ jobs:
     - name: Find changed templates
       id: changed-templates
       run: |
+        echo "::"${{ github.event.pull_request.author_association }}
+        
         if ${{ github.event_name == 'pull_request_target' }}; then
           echo "github.event_name == pull_request_target"
           git fetch origin +refs/pull/${{ github.event.pull_request.number }}/merge
@@ -28,6 +30,7 @@ jobs:
           echo "changed_files=$(git diff --name-only ${{ github.event.before }} ${{ github.event.after }}  | xargs)" >> $GITHUB_OUTPUT
         fi
         echo $(git diff --name-only ${{ github.event.before }} ${{ github.event.after }}  | xargs)
+        
     - name: Test templates
       uses: Achillessanger/iact3-action@v2
       with:
@@ -36,6 +39,7 @@ jobs:
         access_key_secret: ${{ secrets.ACCESS_KEY_SECRET }}
 #      continue-on-error: true
       id: test-templates
+      if: "${{ github.event.pull_request.author_association }}" == "CONTRIBUTOR"
 
 
     - name: DingTalk Robot
