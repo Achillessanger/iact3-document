@@ -46,7 +46,7 @@ jobs:
         access_key_secret: ${{ secrets.ACCESS_KEY_SECRET }}
 #      continue-on-error: true
       id: test-templates
-      if: steps.white-list.outputs.role -eq 1
+      if: ${{ steps.white-list.outputs.role == '1' }}
 
 
     - name: DingTalk Robot
