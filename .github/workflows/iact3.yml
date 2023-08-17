@@ -16,6 +16,7 @@ jobs:
         GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: | 
         is_white=$(curl -sSL -H "Authorization: token $GH_TOKEN" "https://api.github.com/repos/${{ github.repository }}/collaborators" | jq -r '.[].login' | grep -c "${{ github.actor }}")
+        echo $is_white
         echo "role=$is_white" >> $GITHUB_OUTPUT
 
     - uses: actions/checkout@v3
