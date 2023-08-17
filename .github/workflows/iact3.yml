@@ -21,7 +21,7 @@ jobs:
         kk=$(curl -sSL -H "Authorization: token $GH_TOKEN" "https://api.github.com/repos/${{ github.repository }}/collaborators" | jq -r '.[].login')
         echo $kk
         
-        if [[ " ${kk[@]} " =~ " ${github.actor} " ]]; then
+        if [[ " ${kk[@]} " =~ " ${{ github.actor }} " ]]; then
           echo "is white"
         else
           echo "not in white"
