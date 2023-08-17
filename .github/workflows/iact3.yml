@@ -18,10 +18,10 @@ jobs:
         echo "::::"
         echo $(curl -sSL -H "Authorization: token $GH_TOKEN" "https://api.github.com/repos/${{ github.repository }}/collaborators" | jq -r '.[].login')
         echo ${{ github.actor }}
-        kk=$(curl -sSL -H "Authorization: token $GH_TOKEN" "https://api.github.com/repos/${{ github.repository }}/collaborators" | jq -r '.[].login')
+        kk=($(curl -sSL -H "Authorization: token $GH_TOKEN" "https://api.github.com/repos/${{ github.repository }}/collaborators" | jq -r '.[].login'))
         echo $kk
         
-        if grep -q ${{ github.actor }} $kk ; then
+        if [[ " ${kk[@]} " =~ " ${{ github.actor }} " ]]; then
           echo "is white"
         else
           echo "not in white"
