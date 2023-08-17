@@ -10,6 +10,14 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+    - name:  White list
+      id: white-list
+      env:
+        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      run: | 
+        is_white=$(curl -sSL -H "Authorization: token $GH_TOKEN" "https://api.github.com/repos/${{ github.repository }}/collaborators" | jq -r '.[].login' | grep -c "${{ github.actor }}")
+        echo "role=$is_white" >> $GITHUB_OUTPUT
+
     - uses: actions/checkout@v3
       id: checkout
       with:
@@ -31,7 +39,7 @@ jobs:
         access_key_id: ${{ secrets.ACCESS_KEY_ID }}
         access_key_secret: ${{ secrets.ACCESS_KEY_SECRET }}
       id: test-templates
-      if: "${{ github.event.pull_request.author_association }}" == "CONTRIBUTOR"
+      if: ${{ steps.white-list.outputs.role == '1' }}
 
     - name: Validate templates
       uses: Achillessanger/iact3-action@main
@@ -40,12 +48,12 @@ jobs:
         access_key_id: ${{ secrets.ACCESS_KEY_ID }}
         access_key_secret: ${{ secrets.ACCESS_KEY_SECRET }}
       id: validate-templates
-      if: "${{ github.event.pull_request.author_association }}" != "CONTRIBUTOR"
+      if: ${{ steps.white-list.outputs.role != '1' }}
 
     - name: DingTalk Robot
       if: always()
       run: |
-        if [[ "${{ github.event.pull_request.author_association }}" != "CONTRIBUTOR" ]]; then
+        if [[ "${{ steps.white-list.outputs.role  }}" != "1" ]]; then
           if [[ "${{ steps.validate-templates.outputs.status }}" = "success" ]]; then
             curl -H 'Content-Type: application/json;charset=utf-8' -d '{"msgtype": "text","text": {"content": "Iact3-validate CI pass. ${{ github.event.pull_request.user.login }} PR#${{ github.event.pull_request.number }}:${{ github.event.pull_request.title }} ${{ github.event.pull_request.html_url }} "}}' ${{ secrets.DINGDING_WEBHOOK }}
           else
