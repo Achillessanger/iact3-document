@@ -18,6 +18,9 @@ jobs:
         echo "::::"
         echo $(curl -sSL -H "Authorization: token $GH_TOKEN" "https://api.github.com/repos/${{ github.repository }}/collaborators" | jq -r '.[].login')
         echo ${{ github.actor }}
+        kk=$(curl -sSL -H "Authorization: token $GH_TOKEN" "https://api.github.com/repos/${{ github.repository }}/collaborators" | jq -r '.[].login')
+        echo $kk
+        echo ${{ " ${kk[@]} " =~ " ${{ github.actor }} " }}
         is_white=$(curl -sSL -H "Authorization: token $GH_TOKEN" "https://api.github.com/repos/${{ github.repository }}/collaborators" | jq -r '.[].login' | grep -c "${{ github.actor }}")
         if [ $is_white -eq 1 ]; then
           echo "is white"
