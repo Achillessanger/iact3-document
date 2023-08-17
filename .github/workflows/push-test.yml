@@ -17,9 +17,7 @@ jobs:
         
         collaborators=$(curl -sSL -H "Authorization: token $GH_TOKEN" "https://api.github.com/repos/${{ github.repository }}/collaborators" | jq -r '.[].login')
         echo "Repository collaborators: $collaborators"
-        r=$(curl -sSL -H "Authorization: token $GH_TOKEN" "https://api.github.com/repos/${{ github.repository }}/collaborators" | jq -r '.[].login' | grep -c "${{ github.actor }}")
-        echo ":::"$r
-    
+        echo "::"${{ contains($collaborators, github.actor) }}
         if [ $r -eq 1 ]; then
           echo "User is a contributor"
             # 使用某一个 action
